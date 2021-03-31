@@ -108,7 +108,10 @@ int main(int argc, char **argv) {
 
         t->L = script_create(cfg.script, url, headers);
         script_init(L, t, argc - optind, &argv[optind]);
+	}
 
+    for (uint64_t i = 0; i < cfg.threads; i++) {
+        thread *t      = &threads[i];
         if (i == 0) {
             cfg.pipeline = script_verify_request(t->L);
             cfg.dynamic  = !script_is_static(t->L);
